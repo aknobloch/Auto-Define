@@ -32,6 +32,7 @@ public class Main extends Application {
 		
 		primaryStage.setTitle("Aaron's Auto Define");
 		
+		// main pane, holds everything
 		GridPane root = new GridPane();
 		root.setAlignment(Pos.CENTER);
 		root.setHgap(10);
@@ -45,6 +46,7 @@ public class Main extends Application {
 		Label instructions = new Label("Please select a file...");
 		root.add(instructions, 0, 1, 2, 1);
 		
+		// shows the selected file
 		TextField filepathField = new TextField();
 		filepathField.setEditable(false);
 		root.add(filepathField, 0, 2);
@@ -60,6 +62,7 @@ public class Main extends Application {
 		final Text actionTarget = new Text();
 		root.add(actionTarget, 0, 4);
 		
+		// search button brings up file chooser dialoge
 		searchButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -69,7 +72,11 @@ public class Main extends Application {
 				fileChooser.setTitle("Open Resource File");
 				fileChooser.getExtensionFilters().add(
 						new ExtensionFilter("Text Files", "*.txt"));
+				
 				File selectedFile = fileChooser.showOpenDialog(primaryStage);
+				
+				// TODO: Error handling if not correct format, 
+				// TODO: Add "start" button
 				if (selectedFile != null) {
 					filepathField.setText(selectedFile.getAbsolutePath());
 					
@@ -79,6 +86,7 @@ public class Main extends Application {
 					
 					actionTarget.setFill(Color.FIREBRICK);
 					
+					// TODO: Progress does not update. Main thread freezes.
 					while(convertorThread.isAlive()) {
 						actionTarget.setText("Converting file...");
 					}
@@ -93,7 +101,6 @@ public class Main extends Application {
 			
 		});
 		
-		// root.setGridLinesVisible(true);
 		
 		Scene myScene = new Scene(root, 350, 225);
 		primaryStage.setScene(myScene);
